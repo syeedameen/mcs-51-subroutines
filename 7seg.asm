@@ -81,6 +81,7 @@
     ret 
 
 
+; segment output lookup table 
 7segdisplay_lookup:
     movc a,@a+pc
     ret 
