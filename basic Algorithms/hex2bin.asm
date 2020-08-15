@@ -2,7 +2,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;          HEX2DEC SUBROUTINE DESCRIPTION           ;;
 ;;          1. push hexadecimal number               ;;
-;;          2. return number 2 BYTE DECIMAL NUMBER   ;;
+;;          2. return number (2 BYTE DECIMAL DIGIT)   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 
 
