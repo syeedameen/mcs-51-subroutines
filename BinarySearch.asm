@@ -122,7 +122,6 @@ NOTFOUND_BINSSEARCH:
     PUSH ACC 
     MOV A,R5 
     PUSH ACC
-    ACALL MIDCAL_BINSEARCH    
     POP ACC     ;get mid into Accumulator
     MOV R6,A    ;temp store mid 
     AJMP START_BINSEARCH
@@ -162,3 +161,5 @@ MIDCAL_BINSEARCH:
     PUSH 0X7E
     PUSH 0X7F
     RET 
+
+
