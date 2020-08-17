@@ -1,3 +1,11 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;        BUBBLE SORT SUBROUTINE DESCRIPTION            ;;
+;;          1. PUSH NO. OF ELEMENT                      ;;
+;;          2. PUSH BASE ADDRESS OF ARRAY               ;;
+;;                                                      ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 BUBBLESORT:
     POP 0X7F                      ;RETURN ADDRESS OF SUBROUTINE 
     POP 0X7E      
@@ -40,3 +48,4 @@ NOTSWAP_BUBBLESORT:
     MOV DPH,R4                  
     DJNZ R1,REPEAT_BUBBLESORT   ;UPPER COUNTER 
     RET                         ;RETURN SUBROUITNE 
+    
