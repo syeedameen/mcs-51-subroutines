@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;       SELECTION SORT SUBROUTINE DESCRIPTION          ;;
-;;          1. PUSH BASE ADDRESS OF ARRAY               ;;
-;;          2. PUSH NO. OF ELEMENTS                     ;;
+;;          1. PUSH NO. OF ELEMENTS IN STACK            ;;
+;;          2. PUSH BASE ADDRESS OF ARRAY               ;;
 ;;                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -10,7 +10,9 @@
 SELSORT:
 ;-----------------INITILIZATION----------------------------------
     POP 0X7F                        ;RETURN ADDRESS OF SUBROUTINE 
-    POP 0X7E                        
+    POP 0X7E 
+    POP DPH                         ;BASE ADDRESS OF ARRAY  
+    POP DPL
     POP ACC                         ;COUNTER 
     PUSH 0X7E                       
     PUSH 0X7F                       ;PUSH RETURN ADDRESS OF SUBROUITNE 
