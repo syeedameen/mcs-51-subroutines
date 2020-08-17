@@ -1,59 +1,42 @@
+BUBBLESORT:
+    POP 0X7F                      ;RETURN ADDRESS OF SUBROUTINE 
+    POP 0X7E      
 
-bubblesort:
-    pop 0x7f    ;return address of Subroutine 
-    pop 0x7e 
-    pop dph     ;base address of Array 
-    pop dpl 
-    pop 0x35    ;16 bit counter 
-    pop 0x34 
-    push 0x7e   ;push return Address 
-    push 0x7f 
+    POP DPH                       ;BASE ADDRESS OF ARRAY 
+    POP DPL   
+    POP ACC                       ;COUNTER 
 
-    mov r2,dpl  ;temp save data pointer 
-    mov r3,dph
+    PUSH 0X7E                     ;PUSH RETURN ADDRESS 
+    PUSH 0X7F     
 
-    mov r4,0x34 ;lower counter 
-    mov r5,0x35 
+    MOV R0,A                      ;TEMPORARY STORE COUNTER REG.
+    MOV R1,A                      ;AND BASE ADDRESS OF ARRAY
+    MOV R2,A      
+    MOV R3,DPL        
+    MOV R4,DPH    
 
-    mov r0,0x34 ;upper counter 
-    mov r1,0x35 
+REPEAT_BUBBLESORT:
+    MOVX A,@DPTR                  ;MOVE A[I] INTO ACCUMULATOR 
+    MOV R5,A                
+    
+    INC DPTR 
+    MOVX A,@DPTR        
+    MOV R6,A 
 
-repeat_bubblesort:
-    movx a,@dptr 
-    mov r6,a 
-    inc dptr 
-    movx a,@dptr 
-    mov r7,a 
-
-    subb a,r6 
-    jnc notswap_bubblesort
-        mov a,r7 
-        xch a,r6 
-        movx @dptr,a 
-                     ; decrement Data pointer (start) 
-        mov a,dpl 
-        subb a,#01h 
-        jnc skip1_bubblesort
-            dec dph 
-            mov a,#ffh 
-    skip1_bubblesort:
-        mov dpl,a 
-                    ; decrement data pointer (end)
-        mov a,r6 
-        movx @dptr,a 
-        inc dptr 
-notswap_bubblesort:
-    djnz r4,repeat_bubblesort
-        mov r4,#ffh 
-    djnz r5,repeat_bubblesort
-        
-        mov dpl,r2 
-        mov dph,r3 
-        mov r4,0x34 
-        mov r5,0x35 
-    djnz r0,repeat_bubblesort
-        mov r0,#ffh 
-    djnz r1,repeat_bubblesort
-        ret         ; return Bubble sort Subroutine 
-
-
+    SUBB A,R5 
+    JNC NOTSWAP_BUBBLESORT      ;SWAP IF A[I] > A[I+1]
+    MOV A,R6 
+    XCH A,R5 
+    MOVX @DPTR,A 
+    ACALL DEC_DPTR              ;CALL DECREMENT DATA POINTER 
+    MOV A,R5 
+    MOVX @DPTR,A 
+    INC DPTR 
+NOTSWAP_BUBBLESORT:             
+    DJNZ R2,REPEAT_BUBBLESORT   ;LOWER COUNTER 
+    MOV A,R0 
+    MOV R2,A 
+    MOV DPL,R3                  ;INITILIZE DPTR WITH BASE ADDRESS 
+    MOV DPH,R4                  
+    DJNZ R1,REPEAT_BUBBLESORT   ;UPPER COUNTER 
+    RET                         ;RETURN SUBROUITNE 
