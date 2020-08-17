@@ -67,12 +67,18 @@ REPEAT1_SELSORT:
     MOV A,R5 
     MOVX @DPTR,A 
 
-    MOV DPL,R1                       ;MOVE INITIAL DATA POINTER 
-    MOV DPH,R2
+    MOV DPL,R3                       ;MOVE INITIAL DATA POINTER 
+    MOV DPH,R4
 NOSWAP_SELSORT:
     INC DPTR 
     MOV R1,DPL 
     MOV R2,DPH 
+
+    MOV A,R1                        ;MOVE R1 INTO R3 
+    MOV R3,A 
+    MOV A,R2                        ;MOVE R2 INTO R4 
+    MOV R4,A 
+
     DJNZ 0X35,REPEAT1_SELSORT
     INC R0 
     AJMP REPEAT2_SELSORT
