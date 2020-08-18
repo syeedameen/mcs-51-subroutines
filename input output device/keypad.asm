@@ -1,18 +1,17 @@
-; 4x4  Matrix keypad Subrotine  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  4x4  Matrix keypad Subrotine   ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 keypad:
-    row     equ 04 
-    column  equ 04
-        ;  register r4 (row number)
-        ;  register r2 (column number)
-
+    row     equ 04                      ;register r4 (row number)
+    column  equ 04                      ;register r2 (column number)
 
     acall rowread_keypad
     acall columnread_keypad
     acall adjust_keypad
     pop 0x7f 
     pop 0x7e
-    push acc    ;push key number into the Stack 
+    push acc                            ;push key number into the Stack 
     push 0x7e 
     push 0x7f 
     ret 
