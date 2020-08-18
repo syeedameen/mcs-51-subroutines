@@ -48,4 +48,17 @@ NOTSWAP_BUBBLESORT:
     MOV DPH,R4                  
     DJNZ R1,REPEAT_BUBBLESORT   ;UPPER COUNTER 
     RET                         ;RETURN SUBROUITNE 
+
+                                ;DECREMENT DATA POINTER SUBROUITNE 
+DEC_DPTR:
+    MOV A,DPL 
+    SUBB A,#01 
+    JNC SKIP_DEC_DPTR
+    MOV A,#0XFF 
+    DEC DPH 
+SKIP_DEC_DPTR:
+    MOV DPL,A 
+    RET 
+
+  
     
