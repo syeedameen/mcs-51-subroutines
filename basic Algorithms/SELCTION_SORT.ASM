@@ -24,10 +24,10 @@ SELSORT:
     MOV R4,DPH                      ;INITIAL DATA POINTER HIGHER  
     
     MOV 0X35,A                      ;LOWER COUNTER 
-    MOV 0X36,A                      ;UPPER COUNTER 
+    MOV 0X36,A                      ;REGISTER FOR STORE COMPARE VALUE 
 
     MOV A,#00
-    MOV R0,A                        ;CLEAR R0 REGISTER 
+    MOV R0,A                        ;INDEX REGISTER  
 ;------------------INITILIZATION DONE-------------------------------
 
 
@@ -37,13 +37,8 @@ REPEAT2_SELSORT:
     JZ SKIP1_SELSORT                ;REPEAT UNTIL R0 == COUNTER(0X35)
     
     MOV A,R0                        ;CALL SUBROUTINE TO GET (DPTR+ACCUMULATOR) 
-    PUSH DPL 
-    PUSH DPH 
-    PUSH ACC 
     ACALL ADDDPRT_SELSORT
-    POP DPH 
-    POP DPL 
-    
+   
     MOVX A,@DPTR                    
     MOV R5,A                        ;GET *(DPTR + ACCUMULATOR) INTO R5 
     MOV DPL,R3                      ;MOVE INITIAL DATA POINTER VALUE 
@@ -58,14 +53,8 @@ REPEAT1_SELSORT:
     XCH A,R5 
     MOVX @DPTR,A 
     
-    MOV A,R0                        ;CALL SUBROUTINE TO GET (DPTR + ACCUMULATOR)
-    PUSH DPL 
-    PUSH DPH 
-    PUSH ACC 
+    MOV A,R0                        ;CALL SUBROUTINE TO GET (DPTR + ACCUMULATOR) 
     ACALL ADDDPRT_SELSORT
-    POP DPH 
-    POP DPL 
-
     MOV A,R5 
     MOVX @DPTR,A 
 
@@ -73,17 +62,18 @@ REPEAT1_SELSORT:
     MOV DPH,R4
 NOSWAP_SELSORT:
     INC DPTR 
-    MOV R1,DPL 
-    MOV R2,DPH 
-
-    MOV A,R1                        ;MOVE R1 INTO R3 
-    MOV R3,A 
-    MOV A,R2                        ;MOVE R2 INTO R4 
-    MOV R4,A 
-
-    DJNZ 0X35,REPEAT1_SELSORT
-    INC R0 
-    AJMP REPEAT2_SELSORT
+    DJNZ 0X35,REPEAT1_SELSORT       
+    INC R0                          ;INCREMENT INDEX REGISTER 
+    MOV DPL,R1          
+    MOV DPH,R2
+    MOV A,R0 
+    ACALL ADDDPRT_SELSORT           ;INCREMENT DATA POINTER UPTO INDEX REG.
+    INC DPTR                        ;POINT NEXT LOCATION 
+    MOV R3,DPL                      
+    MOV R4,DPH                      ;DPTR SAVE INTO ARRAY POINTER REGISTER 
+    MOV DPL,R1              
+    MOV DPH,R2                      ;LOAD DPTR TO ARRAY BASE LOCATION 
+    SJMP REPEAT2_SELSORT
 
 SKIP1_SELSORT:
     RET 
@@ -92,45 +82,11 @@ SKIP1_SELSORT:
 
 ; SUBROUTINE TO PERFORM (DPTR + ACCUMULATOR)
 ADDDPRT_SELSORT:
-    POP 0X7F 
-    POP 0X7E 
-    
-    POP 0X38 
-    POP 0X37 
-    POP ACC 
-
-    ADD A,0X37
+    MOV R7,A                       
+    MOV A,DPL 
+    ADD A,R7                        ;IF CARRY INCREMENT HIGHER BYTE OF DATA POINTER 
     JNC SKIP_ADDDPTR_SELSORT
-    INC 0X38 
+    INC DPH  
 SKIP_ADDDPTR_SELSORT:
-    MOV 0X37,A 
-
-    PUSH 0X37 
-    PUSH 0X38 
-    PUSH 0X7E 
-    PUSH 0X7F 
-    RET 
-
-
-; SUBROUTINE TO PERFORM (DPTR - ACCUMULATOR)
-DECDPTR_SELSORT:
-    POP 0X7F                            ;RETURN ADD. OF SUBROUTINE 
-    POP 0X7E 
-    
-    POP 0X38                            ;DATA POINTER 
-    POP 0X37    
-    POP 0X39                            ;ACCUMULATOR 
-
-    MOV A,0X37                          ;MOV DPL INTO ACCUMULATOR 
-    SUBB A,0X39                         ;PERFORM (DPL - ACCUMULATOR)
-    JNC SKIP_DECDPTR_SELSORT            
-    DEC 0X37                            ;IF CARRY DECREMENT DPH BYTE 
-SKIP_DECDPTR_SELSORT:
-    MOV 0X37,A 
-
-    PUSH 0X37 
-    PUSH 0X38 
-    PUSH 0X7E 
-    PUSH 0X7F 
-    RET 
-    
+    MOV DPL,A                       ;LOAD INTO DPL REGISTER BYTE 
+    RET
