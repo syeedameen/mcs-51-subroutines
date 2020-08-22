@@ -21,6 +21,7 @@ SINGLEPRE:
     FLAG_BIT2            EQU 0X27^1             ;NUMBER 2 FLAG BIT 
     EXPONENT_NUM1        EQU 0X48               ;NUMBER 1 EXPONENT MEMORY LOCATION 
     EXPONENT_NUM2        EQU 0X47               ;NUMBER 2 EXPONENT MEMORY LOCATION 
+    HIGHER_EXP_FLAG      EQU 0X27^2             ;HIGHER EXP BIT FLAG (0=FOR NUM 1, 1=FOR NUB 2)
        
 
 
@@ -39,6 +40,8 @@ SINGLEPRE:
                 
     PUSH 0X7E                                    ;PUSH SUBROUTINE RETURN ADDRESS 
     PUSH 0X7F 
+
+    CLR HIGHER_EXP_FLAG                          ;CLEAR HIGHER ORDER FLAG BIT 
 
     ACALL CHECK_FLAG_SINGLEPRE                   ;ABSOLUTE CALL DIFFRENT SUBROUITNES 
     ACALL ADJSUT_EXP_SINGLEPRE
@@ -88,11 +91,10 @@ CHECK_FLAG_SINGLEPRE:
 SKIP2_CHECK_FLAG_SINGLEORE:                     
     RET                                         ;RETURN SUBROUTINE 
 
-;-------------ADJUST EXPONENET SUBROUTINE------------------------;
-;   1.EXPONENT STORE INTO R1,R0 REGISTERS                        ;
-;   2.THOSE WHO ARE SMALLER EXPONENT EQUATE WITH LARGER          ;
-;     BY RIGHT SHIFTING MANTISSA N BIT                           ;
-;----------------------------------------------------------------;
+;--------------------------ADJUST EXPONENET SUBROUTINE-------------------------------------;
+;   1.EXPONENT STORE INTO R1,R0 REGISTERS                                                  ;
+;   2.THOSE WHO ARE SMALLER EXPONENT EQUATE WITH LARGER BY RIGHT SHIFTING MANTISSA N BIT   ;                                                          ;
+;------------------------------------------------------------------------------------------;
 
 ADJSUT_EXP_SINGLEPRE:
     MOV R1,0X60                                 ;FIRST NUMBER EXPONENT WITH SIGN BIT  
@@ -190,7 +192,7 @@ NO_BIT5:
     
 ;------------------COMPARE NUMBERS EXPONENT---------------------------
     MOV R1,EXPONENT_NUM1
-    MOV R0,EXPONENT_NUM2
+    MOV R0,EXPONENT_NUM2 
 
     MOV A,R1                                    ;FIRST NUMBER EXPONENT 
     CJNE A,R0,EXPNOTEQU_ADJUST_EXP_SINGLEPRE    ;JUMP IF EXPONENT ARE NOT EQUL (AND ADJUST EQUAL EXPONENTS)
@@ -199,6 +201,7 @@ NO_BIT5:
 EXPNOTEQU_ADJUST_EXP_SINGLEPRE:
     SUBB A,R0                                   ;SUBTRACT FIRST EXP WITH SECOND EXP
     JNC NUM1_GTR_ADJUST_EXP_SINGLEPRE
+    SETB HIGHER_EXP_FLAG                        ;SET HIGHER EXP FLAG TO INDICATE NUM2 EXP IS LARGER 
     MOV A,R0 
     SUBB A,R1 
     MOV R3,A                                    ;FIRST NUMBER MANTISSA SHIFTING COUNTER 
@@ -328,13 +331,43 @@ SKIP3_ADD_SINGLEPRE:
     RET                                         ;RETURN SUBROUTINE                    
 
 
+;----------------------RELEXLIZATION RESULT NUMBER----------------------;
+;
 
-
-;----------------------RELEXLIZATION RESULT NUMBER----------------------
 RELEXLIZATION_SINGLEPRE:
     CJNE R6,#0X00,NO_INCREMENT_EXP
-    
-    
-
+    JNB HIGHER_EXP_FLAG,FIRST_NUMBER_IS_HIGHER
+    MOV A,EXPONENT_NUM2
+    INC A
+    MOV R5,A                                    ;REG. THEY CONTAIN EXPONENT OF FINAL RESULT  
+    SJMP SKIP_RELEXLIZATION_SINGLEPRE
 NO_INCREMENT_EXP:
+    JNB HIGHER_EXP_FLAG,FIRST_NUMBER_IS_HIGHER
+    MOV A,EXPONENT_NUM2
+    MOV R5,A                                   ;HIGHER EXPONENT MOVE INTO R5 REGISTER 
+SKIP_RELEXLIZATION_SINGLEPRE:
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    MOV 0X49,MANTISSA_BYTE1
+    MOV 0X50,MANTISSA_BYTE2
+    MOV 0X51,MANTISSA_BYTE3
+
 
