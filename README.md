@@ -1,8 +1,3 @@
-# mcs-51-subroutines-
-8051 Subroutine Programs 
+# MCS-51-Subroutines
 
-
-
-
-This repository contain different 
-MCS-51 Subroutines 
+This repository contain different MCS-51 Subroutines 
