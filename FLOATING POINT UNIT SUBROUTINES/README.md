@@ -2,9 +2,8 @@
 ------------------------------------------------------------------------------
 
 ## Description
-In MCS-51 Family Microcontroller there is no Floating point unit to perform Floating ponit operation 
+In MCS-51 Family Microcontroller there is no Floating point unit to perform Floating ponit operation
 due to this situation, I added some Floating point Arithmetic Calculation Subroutines 
-----------------------------------------------------------------------------
 
 ## Contents
 
