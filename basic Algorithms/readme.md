@@ -2,7 +2,7 @@
 
 Subroutines                             | Description 
 ----------------------------------------|---------------------------------
-Calculate avrage of an array            |   [Avragearray]
+Calculate avrage of an array            |   [Avrage array]
 Binary Search                           |   [BinSearch]
 Linear Search                           |   [LinearSearch]
 Bubble Sort                             |   [BubbleSort]
@@ -10,8 +10,6 @@ Selection Sort                          |   [Selsort]
 Hexadecimal to Binary Conversion        |   [hex2bin]
 Find Min/Max into an Array              |   [MinMax]
 Delay N Microsecond                     |   [delay]
-----------------------------------------|------------------------------------
-
 
 
 [Avragearray]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/AvrageArray.asm
