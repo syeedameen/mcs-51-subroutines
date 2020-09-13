@@ -1,5 +1,6 @@
-;Program to findout minimum or maximum number in the given Array
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Program to findout minimum or     ;
+; maximum number in the given Array ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;          DESCRIPTION            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    

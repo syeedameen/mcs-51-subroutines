@@ -1,10 +1,11 @@
-; Program subrotutine to convert hexadecimal number into decimal number
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;          HEX2DEC SUBROUTINE DESCRIPTION           ;;
-;;          1. push hexadecimal number               ;;
-;;          2. return number (2 BYTE DECIMAL DIGIT)   ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 
+;-----------------------------------------------------------------------------;
+;   Program subrotutine to convert hexadecimal number into decimal number     ;
+;-----------------------------------------------------------------------------;
+;                      HEX2DEC SUBROUTINE DESCRIPTION                         ;
+;                      1. push hexadecimal number                             ;
+;                      2. return number (2 BYTE DECIMAL DIGIT)                ;
+;-----------------------------------------------------------------------------; 
 
 ; check again ***###***
 HEX2DEC:
