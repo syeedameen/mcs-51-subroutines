@@ -2,7 +2,7 @@
 
 Subroutines                             | Description 
 ----------------------------------------|---------------------------------
-Calculate avrage of an array            |   [Avrage array]
+Calculate avrage of an array            |   [Avragearray]
 Binary Search                           |   [BinSearch]
 Linear Search                           |   [LinearSearch]
 Bubble Sort                             |   [BubbleSort]
