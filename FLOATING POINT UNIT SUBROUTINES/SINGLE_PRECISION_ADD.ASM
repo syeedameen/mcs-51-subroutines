@@ -289,9 +289,8 @@ SKIP_SHIFT_MANTISSA:
 ;****************************************************************************
 
 
-;-----------------ADDITION SINGLE PRECISION MANTISSAS------------------------
-;  1.ADD MANTISSS AND STORE INTO BIT ADDRESSABLE AREA                       ;
-;
+;-----------------ADDITION SINGLE PRECISION MANTISSAS------------------------;
+;  1.ADD MANTISSS AND STORE INTO BIT ADDRESSABLE AREA                        ;
 
 
 
@@ -330,7 +329,7 @@ SKIP3_ADD_SINGLEPRE:
 
 
 
-;----------------------RELEXLIZATION RESULT NUMBER----------------------
+;----------------------RELEXLIZATION RESULT NUMBER----------------------;
 RELEXLIZATION_SINGLEPRE:
     CJNE R6,#0X00,NO_INCREMENT_EXP
     
