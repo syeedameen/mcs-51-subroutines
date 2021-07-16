@@ -1,160 +1,127 @@
-; Error (To Create lo <= hi)
+;-------------------------------------------------------;
+;		      binary search subroutine                  ;
+;-------------------------------------------------------;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;      ALGORITHM           ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;   Binarysearch(A,n,key)  ;;
-;;   lo := 0                ;;
-;;   hi := n                ;;
-;;   mid := (lo+hi)/2       ;;
-;;                          ;;
-;;   while(lo <= hi)        ;;
-;;      if a[mid] == key    ;;
-;;          return mid      ;;
-;;      if a[mid] < key     ;;
-;;          lo := mid+1     ;;
-;;      if a[mid] > key     ;;
-;;          hi := mid-1     ;;
-;;      mid = (lo+hi)/2     ;;
-;;  search is not sucsessful;;
-;;  exit                    ;;  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;-------------------------------------------------------;
+;               DISCRYPTION OF SUBROUTINE               ;
+;                                                       ;
+; 	1. push number of elements                          ;
+; 	2. push key element                                 ;
+; 	3. push base address of array (lower addr first)    ;
+;-------------------------------------------------------;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;          DISCRYPTION OF ALGORITHM    ;;
-;;  1. push the index address           ;;
-;;  2. push number of elements          ;;  
-;;  3. push key element                 ;;
-;;                                      ;;
-;;                                      ;;    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;-------------------------------------------------------;
+;                      ALGORITHM                        ;
+;-------------------------------------------------------;
+;             Binarysearch(A,n,key)                     ;
+;             low  := 0                                 ;
+;             high := n                                 ;
+;             mid := 0                                  ;
+;                                                       ;
+;             while(low <= high)                        ;
+;                mid = (low + high) / 2                 ;
+;                if a[mid] == key                       ;
+;                    return mid                         ;
+;                if a[mid] < key                        ;
+;                    low := mid+1                       ;
+;                if a[mid] > key                        ;
+;                    high := mid-1                      ;
+;                                                       ;
+;            search is not sucsessful                   ;
+;            exit                                       ;  
+;-------------------------------------------------------;
 
+binsearch:
+	pop 0x7f 
+	pop 0x7e 
 
+	pop dph 	; base address of array 	
+	pop dpl
 
-BINSEARCH:  
-    POP 0X7F 
-    POP 0X7E 
+	pop acc 	
+	mov r0,a 	; key element 
+	pop acc		; number of elements 
 
-    POP DPH                         ;Base Addr. of Array  
-    POP DPL                     
-
-    POP ACC                         ;key element in r0 reg.
-    MOV R0,A                    
-
-    POP ACC                         ;no. of element 
-    MOV R1,A                    
-
-    PUSH 0X7E                   
-    PUSH 0X7F                   
+	push 0x7e 
+	push 0x7f 
 
 
-    MOV R2,DPL                      ;save datapointer reg.
-    MOV R3,DPH                  
+	mov r1, #0x00 	; low index 
+	mov r2, a 	    ; high index 
+	mov r3, #0x00	; middle index 
 
-    MOV R4,#0X00                     ;define lo: and hi:
-    MOV R5,A                    
+repeat_binsearch:
+	; check while (low < high)
+	mov a, r1 
+	subb a, r2 	; compare low with high 
 
-;---------------First calculating mid for calling subroutine-----------------
+; condition flags 
+; low > high 	(C = 0, Z = 0)
+; low == high 	(C = 0, Z = 1)
+; low < high 	(C = 1, Z = 0)
+	
+	jc exit_loop_binsearch 
+	pop 0x7f 
+	pop 0x7e 
+	mov a, #-1 
+	push acc 
+	push 0x7e 
+	push 0x7f 
+	ret 
+	
+exit_loop_binsearch:
 
-    MOV A,R4                        ;push lo: & hi: for mid cal
-    PUSH ACC 
-    MOV A,R5 
-    PUSH ACC
-
-    ACALL MIDCAL_BINSEARCH     
-    POP ACC                         ;get mid into Accumulator
-    MOV R6,A                        ;temp store mid 
-    
-                                    ; check lo: <= hi:   
-                                    ; if condition false searching is unsuccessful
-                                    ; return 0x0000 address that is elemet not found 
-START_BINSEARCH:
-    MOV A,R4                        ;mov acc = lo:
-    SUBB A,R5                       ;test lo: with hi:
-    JC REPEAT_BINSEARCH
-    MOV A,R4                        ;jump if lo: = hi:
-    SUBB A,R5 
-    JZ REPEAT_BINSEARCH
-    POP 0X7F            
-    POP 0X7E    
-    MOV A,#0X00                     ;if key element is not found 
-    PUSH ACC                        ;return 0x0000 
-    PUSH ACC
-    PUSH 0X7E 
-    PUSH 0X7F  
-    RET                             ;return subroutine 
-
-REPEAT_BINSEARCH:
-    MOV A,R6 
-    MOVC A,@A+DPTR                  ;Mov a <-- a[mid+base Addr.] 
-    MOV R7,A                        ;temp store a[mid]
-    SUBB A,R0                       ;Compare with key element 
-    JNZ NOTFOUND_BINSSEARCH
-;--------------if key element is equal (Search is Sucessfull)----------------
-    POP 0X7F 
-    POP 0X7E 
-
-    MOV A,R6                        ;add mid into datapointer
-    ADD A,DPL
-    JNC SKIP_BINSEARCH              ;if c=1 inc dph 
-    INC DPH
-SKIP_BINSEARCH:
-                                    ;push addr. of key and return subroutine  
-    PUSH DPL
-    PUSH DPH
-    PUSH 0X7E 
-    PUSH 0X7F 
-    RET 
-
-;----------------------if element is not found-------------------------- 
-NOTFOUND_BINSSEARCH:
-    MOV A,R7                        ;move a[mid] 
-    SUBB A,R0                       ;compare a[mid] with key element 
-    JNC GREATER_BINSEARCH
-    INC R6                          ;increment mid 
-    MOV A,R6                    
-    MOV R4,A                        ;move lo: = mid +1
-
-    MOV A,R4
-    PUSH ACC 
-    MOV A,R5 
-    PUSH ACC
-    POP ACC                         ;get mid into Accumulator
-    MOV R6,A                        ;temp store mid 
-    AJMP START_BINSEARCH
-
-;a[mid] is greater a[mid] > key 
-GREATER_BINSEARCH:
-    DEC R6                          ;decrement mid  
-    MOV A,R6                    
-    MOV R5,A                        ;mov hi: = mid -1
+	mov a, r1 
+	push acc 
+	mov a, r2 
+	push acc 
+	acall middle_position 
+	pop acc 
+	mov r3, a 		        ; middle index position 
+	
+	movc a, @a+dptr 	    ; fetch a[middle] element 
+	subb a, r0 		        ; compare a[middle] with key element 
+	
+	jnz not_equal_binsearch
+	pop 0x7f 
+	pop 0x7e 
+	mov a, r3 
+	push 0x7e 
+	push 0x7f 
+	ret 	
 
 
-    MOV A,R4
-    PUSH ACC 
-    MOV A,R5 
-    PUSH ACC
+; condition flags of comparision a[middle] with key 
+;   if (a[middle] > key)    (C = 0)
+;   if (a[middle] < key)    (C = 1)
 
-    ACALL MIDCAL_BINSEARCH
-    POP ACC                         ;get mid into Accumulator
-    MOV R6,A                        ;temp store mid 
-    AJMP START_BINSEARCH
+not_equal_binsearch:
+	jc greater_than_binsearch 	
+	mov a, r3                   ; high = mid - 1
+	mov r2, a 
+	dec r2 
+	rjmp repeat_binsearch 		
 
-;-------------------Mid calculation subroutine--------------------
-MIDCAL_BINSEARCH:
-    POP 0X7F 
-    POP 0X7E 
+greater_than_binsearch:		; low = mid + 1
+	mov a, r3 
+	mov r1, a 
+	inc r1 
+	rjmp repeat_binsearch 
+	
+	
+; calculate the middle position of array index 
+middle_position:	
+	pop 0x7f 
+	pop 0x7e 
+	pop b 
+	pop acc 
+	
 
-    POP ACC 
-    MOV 0X5F,A 
-    POP ACC 
+	add a, b 
+	mov b, #0x02 
+	div ab 
 
-    
-    ADD A,0X5F 
-    MOV B,#0X02
-    DIV AB                          ;(low + high)/2 
-
-    PUSH ACC 
-    PUSH 0X7E
-    PUSH 0X7F
-    RET 
+	push acc 
+	push 0x7e 
+	push 0x7f 
+	ret 
