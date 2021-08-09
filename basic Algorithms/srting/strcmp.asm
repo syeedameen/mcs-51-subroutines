@@ -34,3 +34,17 @@ strcmp:
 ;           return false;
 ;   }
 ;   return false;
+
+
+
+/* String Comparision function */
+int strcmp(char *p1, char *p2)
+{
+	while (*p1 != '\0' && *p2 != '\0')
+	{
+		if (*p1 != *p2)
+			return *p1 - *p2;
+		else 
+			p1++, p2++;
+	}
+}
