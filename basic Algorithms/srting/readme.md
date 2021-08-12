@@ -11,8 +11,8 @@ Searches for a character within a string|	[strchr]
 
 
 [strlen]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/srting/strlen.asm
-[strcmp]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/string/strcmp.asm 
-[strupr]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/string/strupr.asm
-[strlwr]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/string/strlwr.asm
-[strchr]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/string/strchr.asm
+[strcmp]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/srting/strcmp.asm
+[strupr]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/srting/strupr.asm
+[strlwr]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/srting/strlwr.asm
+[strchr]:https://github.com/syeedameen/mcs-51-subroutines/blob/master/basic%20Algorithms/srting/strchr.asm
 
